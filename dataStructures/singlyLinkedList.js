@@ -90,22 +90,57 @@ class SinglyLinkedList {
 
     return value;
   }
+
+  set(value, index) {
+    const node = this.get(index);
+    if (!node) return false;
+
+    node.value = value;
+    return true;
+  }
+
+  insert(value, index) {
+    if (index < 0 || index > this.length) return false;
+    if (index === 0) return !!this.unshift(value);
+    if (index === this.length) return !!this.push(value);
+
+    const prevNode = this.get(index - 1);
+    const newNode = new Node(value);
+    newNode.next = prevNode.next;
+    prevNode.next = newNode;
+    this.length++;
+
+    return true;
+  }
+
+  remove(index) {
+    if (index < 0 || index >= this.length) return undefined;
+    if (index === 0) return this.shift();
+    if (index === this.length - 1) return this.pop();
+
+    const prevNode = this.get(index - 1);
+    const removedNode = prevNode.next;
+    prevNode.next = removedNode.next;
+    this.length--;
+
+    return removedNode;
+  }
+
+  reverse() {
+    let currentNode = this.head;
+    let nextNode;
+    let prevNode = null;
+
+    this.head = this.tail;
+    this.tail = currentNode;
+
+    while (currentNode.next) {
+      nextNode = currentNode.next;
+      currentNode.next = prevNode;
+      prevNode = currentNode;
+      currentNode = nextNode;
+    }
+
+    return this;
+  }
 }
-
-const list = new SinglyLinkedList();
-
-console.log(list.unshift('Namaste'));
-console.log(list.unshift('motherfuckers'));
-console.log(list.push('Hello'));
-console.log(list.push('World'));
-console.log(list.push('!'));
-console.log(list.push('Finished'));
-console.log(list.get(5));
-// console.log(list.pop());
-// console.log(list);
-// console.log(list.shift());
-// console.log(list);
-// console.log(list.shift());
-// console.log(list);
-// console.log(list.shift());
-// console.log(list);

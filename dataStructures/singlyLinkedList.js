@@ -55,6 +55,7 @@ class SinglyLinkedList {
 
     const currentHead = this.head;
     this.head = this.head.next;
+    currentHead.next = null;
     this.length--;
 
     if (this.length === 0) this.tail = null;
@@ -121,6 +122,7 @@ class SinglyLinkedList {
     const prevNode = this.get(index - 1);
     const removedNode = prevNode.next;
     prevNode.next = removedNode.next;
+    removedNode.next = null;
     this.length--;
 
     return removedNode;

@@ -105,18 +105,37 @@ class DoubleLinkedList {
     node.value = value;
     return true;
   }
+
+  insert(value, index) {
+    if (index < 0 || index > this.length) return false;
+    if (index === 0) return !!this.unshift(value);
+    if (index === this.length) return !!this.push(value);
+
+    const prevNode = this.get(index - 1);
+    const nextNode = prevNode.next;
+    const newNode = new Node(value);
+
+    newNode.next = nextNode;
+    nextNode.previous = newNode;
+    prevNode.next = newNode;
+    newNode.previous = prevNode;
+    this.length++;
+
+    return true;
+  }
+
+  remove(index) {
+    if (index < 0 || index >= this.length) return undefined;
+    if (index === 0) return this.shift();
+    if (index === this.length - 1) return this.pop();
+
+    const removedNode = this.get(index);
+    removedNode.previous.next = removedNode.next;
+    removedNode.next.previous = removedNode.previous;
+    removedNode.next = null;
+    removedNode.previous = null;
+    this.length--;
+
+    return removedNode;
+  }
 }
-
-const list = new DoubleLinkedList();
-
-console.log(list.push(10));
-console.log(list.push(20));
-console.log(list.push(30));
-console.log(list.push(40));
-console.log(list.push(50));
-console.log(list.push(60));
-console.log(list.push(70));
-console.log(list.push(80));
-console.log(list.push(90));
-console.log(list.push(100));
-console.log('get: ', list.get(7));
